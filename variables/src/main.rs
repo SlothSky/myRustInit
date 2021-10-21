@@ -41,4 +41,61 @@ fn main() {
     // changing of variable type
     //let spaces = "    ";
     //let spaces = spaces.len();
+
+    /*
+    - Scalar data types
+        - represent a single value
+        - intergers, floating point numbers, Booleans, characters
+    */
+    // addition
+    let _sum = 5 + 10;
+
+    // substraction
+    let _difference = 94.4 - 34.4;
+
+    // multiplication
+    let _product = 4 * 40;
+
+    // division
+    let _quotient = 56.7 / 30.3;
+    let _floored = 2 / 3;
+
+    // remainder
+    let _remainder = 43 % 5;
+
+    println!("\n3.2.4 Some char tests");
+    // chars have to be declared w/ single quotes as opposed to strings (double quotes)
+    let c = 'c';
+    let z = 'ℤ';
+    let sloth = '🦥'; 
+    println!("Here we have: {} ### {} ### {}", c, z, sloth);
+
+    println!("\n3.2.5 A tuple test");
+    /*
+    - Comound data types
+        - group multiple values into one type
+        - tuples & arrays
+    */
+    // Tuples cannot grow or shrink in size -> once declared they have this size
+    let tup = (32, 't', 3.4);
+
+    // to get specific values of a tuple we use pattern matching for destructuring 
+    let (_x, y, _z) = tup;
+
+    println!("The second value of the tuple is: {}", y);
+
+    // a specific value at a index of a tuple can be directly retrieved
+    let _three_point_four = tup.2;
+    println!("This value is the first of the tuple: {}", tup.0);
+
+    println!("\n3.2.6 An array test");
+    // Arrays have as well a fixed length, but their contents need to have the same data type
+    let a = [0, 1, 2, 3, 4, 5];
+
+    // initialize an array with the same value for each element (note semicolon instead comma)
+    let _b = [2; 5];
+
+    // get a specific value at index in array a
+    let first_value_of_a = a[0];
+    println!("This is the first value of the array: {}", first_value_of_a);
 }
