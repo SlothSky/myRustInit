@@ -1,0 +1,4 @@
+# Cargo generated compilation results and executables
+target/
+debug/
+
