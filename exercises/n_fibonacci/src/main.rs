@@ -1,18 +1,22 @@
 use std::io;
 
-const FIRST_FIBONACCI: u64 = 1;
+const FIRST_FIBONACCI: u64 = 0;
 
 fn main() {
-    println!("Which Fibonacci number do you desire? [1-91]");
+    println!("Which Fibonacci number do you desire? [0-94]");
 
     let mut users_choice = String::new();
 
     loop {
+        // include @llgoewers lesson
+        users_choice.clear();
+
         io::stdin()
             .read_line(&mut users_choice)
             .expect("Error happened when reading your input!");
-      
-        let users_choice = match users_choice.trim_end().parse::<u128>() {
+
+        // evaluate if the user entered positive integer, as anything else would not make sense
+        let users_choice = match users_choice.trim_end().parse::<u64>() {
             Ok(n) => n,
             Err(_) => {
                 println!("Please enter a positive Integer.");
@@ -27,22 +31,30 @@ fn main() {
     }
 }
 
-fn calculate_fibonacci(user_choice: u128) {
+fn calculate_fibonacci(user_choice: u64) {
     println!("Following number was entered: {}", user_choice);
-   
-    let mut fibonacci_counter = FIRST_FIBONACCI;
-    let mut iterator: u128 = 0;
-    let mut old_counter = 0;
-    
-    let users_result = loop {
-        iterator += 1;
 
-        old_counter = fibonacci_counter - old_counter;
+    let mut fibonacci_counter = FIRST_FIBONACCI;
+    let mut iterator = FIRST_FIBONACCI;
+    let mut old_counter = FIRST_FIBONACCI; 
+
+    let users_result = loop {
+        // during the first 2 iterations, do some out of the box Fibonacci stuff
+        if iterator == 2 {
+            old_counter += 1;
+        } else {
+            old_counter = fibonacci_counter - old_counter;
+        }
+
+        // do some regular Fibonacci stuff..
         fibonacci_counter += old_counter;
 
+        // stop at user's target Fibonacci number
         if iterator == user_choice {
-            break fibonacci_counter
+            break fibonacci_counter;
         }
+
+        iterator += 1;
     };
 
     println!("This is your desired Fibonacci number: {}", users_result);
