@@ -8,9 +8,10 @@ const FORMULA_MULTIPLIER: f64 = 1.8;
 fn main() {
     println!("Do you want to convert from Celsius to Fahrenheit [C], or do you want to convert from Fahrenheit to Celsius [F]");
 
+    let mut unit_choice = String::new();
     // get users choice for convertion directrion
     loop {
-        let mut unit_choice = String::new();
+        unit_choice.clear();
 
         io::stdin()
             .read_line(&mut unit_choice)
@@ -34,9 +35,10 @@ fn temperature_calculator(source_unit: &str) {
 
     let target_unit = if source_unit == "F" { "C" } else { "F" };
 
+    let mut starting_value = String::new();
     loop {
-        let mut starting_value = String::new();
-      
+        starting_value.clear();
+
         // getting the user's input (Fahrenheits)
         io::stdin().
             read_line(&mut starting_value).
