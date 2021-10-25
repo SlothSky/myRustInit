@@ -17,7 +17,7 @@ fn main() {
             .read_line(&mut unit_choice)
             .expect("Your choice could not be processed.");
 
-        unit_choice = unit_choice.trim_end().to_string();
+        let unit_choice = unit_choice.trim_end();
 
         // use the user's choice as convertion direction input
         if unit_choice == "F" || unit_choice == "C" {
