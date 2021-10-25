@@ -20,7 +20,7 @@ fn main() {
         let unit_choice = unit_choice.trim_end();
 
         // use the user's choice as convertion direction input
-        if unit_choice == "F" || unit_choice == "C" {
+        if matches!(unit_choice, "F" | "C") {
             temperature_calculator(&unit_choice);
 
             break;
