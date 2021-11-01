@@ -85,6 +85,58 @@ fn main() {
         "For the input: '{}', we calculated a length of {}",
         output, length
     );
+
+    // Same behaviour is cleaner and easier to manage via references
+    let input = String::from("Hello there, ...");
+
+    // Via the reference to input, we do not take ownership of input
+    // Because of that, the variable does not get dropped after its reference is going out of scope
+    // The creation of a reference is BORROWING
+    let length = calculate_length_via_reference(&input);
+    println!("The calculated length of '{}' is {}.", input, length);
+
+    println!("\n4.2.1 - Mutable references");
+    let mut some_string = String::from("Hello there, ");
+
+    change_some_reference(&mut some_string);
+    println!("{}", some_string);
+    // We can only have one mutable reference of a value at a time
+    // This commented code would fail:
+    // let s1 = &mut some_string;
+    // let s2 = &mut some_string;
+    // However, we can have multiple mutable references in different scopes:
+    {
+        let _r1 = &mut some_string;
+        // ...
+    } // _r1 goes out of scope
+    let _r2 = &mut some_string; // _r2 is defined after _r1 went out of scope
+
+    // We also cannot combine mutable and immutable references.
+    // The immutable references do not expect that the value they are referencing to changes.
+    // Multiple immutable references are ok, as no one is changing the value they are referencing to. 
+    // Following commented code would not compile:
+    // let _r1 = &some_string;
+    // let _r2 = &some_string;
+    // let _r3 = &mut some_string;
+    // println!("{}, {}, {}", _r1, _r2, &_r3);
+    
+    // Following code is ok, as the immutable references are already out of scope:
+    let _r1 = &some_string;
+    let _r2 = &some_string;
+    println!("'{}', '{}'", _r1, _r2); // _r1 and _r2 are going out of scope
+
+    // mutable reference to some_string is defined after the immutable references went out of scope
+    let _r3 = &mut some_string;
+    println!("'{}'", _r3);
+
+    println!("\n4.2.2 - Dangling references");
+    // Rust will make sure that the value does not go out of scope before the reference to this value
+    // Otherwise we would be able to have references to values, which are already dropped
+    // Following commented code would not compile
+    // let reference_to_nothing = create_dangling_reference();
+
+    let _no_dangle_string = create_no_dangle();
+    println!("'{}' was moved completely to its calling function → no borrowing happened.", _no_dangle_string);
 }
 
 // Functions for 4.1.3
@@ -115,10 +167,35 @@ fn takes_and_gives_back(a_string: String) -> String {
     a_string // a_string is returned and moved to the calling function
 }
 
-// Function for 4.2.0
+// Functions for 4.2.0
 fn calculate_length(input: String) -> (String, usize) {
     let length = input.len();
 
     // In order to work after this function with the variable we return a tuple
     (input, length)
+}
+
+// The & is a reference to a String (we do not take any ownership of the given String) 
+// The String is itself will not be moved into this function
+fn calculate_length_via_reference(input: &String) -> usize {
+    input.len()
+}
+
+// Function for 4.2.1
+// Via the mutable reference, we make clear that change_some_reference will be changing the value it borrows 
+fn change_some_reference(input: &mut String) {
+    input.push_str("General Kenobi");
+}
+
+// Functions for 4.2.2
+// fn create_dangling_reference() -> &String {
+//     let s = String::from("This String will drop before its reference can be used");
+
+//     &s
+// }
+
+fn create_no_dangle() -> String {
+    let s = String::from("This String will be moved to the calling function");
+
+    s
 }
