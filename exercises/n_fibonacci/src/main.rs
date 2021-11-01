@@ -39,8 +39,8 @@ fn calculate_fibonacci(user_choice: u64) {
     let mut old_counter = FIRST_FIBONACCI; 
 
     let users_result = loop {
-        // during the first 2 iterations, do some out of the box Fibonacci stuff
-        if iterator == 2 {
+        // during the first 2 iterations (0 & 1), do some out of the box Fibonacci stuff
+        if iterator == 1 {
             old_counter += 1;
         } else {
             old_counter = fibonacci_counter - old_counter;
