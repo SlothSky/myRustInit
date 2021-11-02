@@ -137,6 +137,39 @@ fn main() {
 
     let _no_dangle_string = create_no_dangle();
     println!("'{}' was moved completely to its calling function → no borrowing happened.", _no_dangle_string);
+
+    println!("\n4.3.0 - Slices");
+    // Following code compiles, but is a bug, as word is not directly connected to the String and String went out of context
+    let mut s = String::from("Hello World");
+
+    let _word = find_string(&s);
+
+    s.clear(); // at this point word will still be valid, but its corresponding String is not valid anymore (bug potential)
+
+    println!("\n4.3.1 - String Slices");
+    // a String slice is a reference to part of a String:
+    let s = String::from("Hello World");
+
+    // starting index → first index of slice | ending index → one more than last index (..= is possible)
+    let hello = &s[0..5];
+    let world = &s[6..11];
+
+    println!("{}' {}", hello, world);
+
+    // Slices can also have no starting index (from start) or no ending index (to end)
+    let _start_slice = &s[..3];
+    let _end_slice = &s[6..];
+
+    // Slices can also have no indeces or variables (both slices below are the same)
+    let _complete_slice = &s[..];
+    let _complete_variable_slice = &s[0..s.len()];
+    println!("Complete slice with variable: {}", _complete_variable_slice);
+
+    // Slices also work for other types than arrays
+    let _a = [1, 2, 3, 4, 5];
+    let array_slice = &_a[2..3];
+
+    println!("The first element of the array [1, 2, 3, 4, 5] slice is: {}", array_slice[0]);
 }
 
 // Functions for 4.1.3
@@ -198,4 +231,30 @@ fn create_no_dangle() -> String {
     let s = String::from("This String will be moved to the calling function");
 
     s
+}
+
+// Functions for 4.3.0
+fn find_string(some_string: &String) -> usize {
+    let bytes = some_string.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return i;
+        }
+    }
+
+    some_string.len()
+}
+
+// Even more better: in signature, use &str as parameter
+fn find_string_with_slice(some_string: &String) -> &str {
+    let bytes = some_string.as_bytes();
+
+    for (i, &item) in bytes.iter().enumerate() {
+        if item == b' ' {
+            return &some_string[..i];
+        }
+    }
+
+    &some_string[..]
 }
