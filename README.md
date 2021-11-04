@@ -35,3 +35,9 @@ ___
   + Understanding ownership
     + ownership
 
+### 0.5.0
++ [RustBook](https://doc.rust-lang.org/book/title-page.html) - Chapter 5
+  + Using Structs to Structure Related Data
+    + structs
+    + exercises/struct_exercise
+    + methods
