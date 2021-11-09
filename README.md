@@ -41,3 +41,8 @@ ___
     + structs
     + exercises/struct_exercise
     + methods
+
+### 0.6.0
++ [RustBook](https://doc.rust-lang.org/book/title-page.html) - Chapter 6
+  + Enums and Pattern Matching
+    + enums
