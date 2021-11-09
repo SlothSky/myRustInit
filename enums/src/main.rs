@@ -240,6 +240,40 @@ fn main() {
 
     roll_2.tell_rust_that_definitely_one_other_arm_is_used();
     roll_4.tell_rust_that_definitely_one_other_arm_is_used();
+
+    println!("\n6.3.0 - if let");
+    // if let combined can handle with less verbosity values that 
+    // match a pattern, while ignoring the rest
+    // long version with match: 
+    let config_max = Some(3u8);
+    match config_max {
+        Some(max) => println!("The maximum is configured to be {}", max),
+        _ => (), // boilerplate
+    }
+
+    // shorter version with if let:
+    let config_max = Some(3u8);
+    // if let takes a pattern (Some(max)) and expression (config_max) separated by an equal sign
+    // In this example config_max gets bound to max
+    if let Some(max) = config_max {
+        println!("The maximum is configured to be {}", max);
+    }
+    // Should only be used if either one or no value, like above shall be matched
+    // Otherwise the match checking advantage is lost
+
+    // also else can be added: 
+    let coin = Coin::Quarter(UsState::California);
+    let mut count = 0;
+    println!("You currently entered {} coins.", count);
+
+    if let Coin::Quarter(state) = coin {
+        println!("You entered a quarter from the state {:?}", state);
+        count += 1;
+    } else {
+        count += 1;
+    }
+
+    println!("You currently entered {} coins.", count);
 }
 
 // Function for 6.1.0
