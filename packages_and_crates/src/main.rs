@@ -42,4 +42,27 @@ fn main() {
     
     // Via namespacing we can control the scope of a crate
     // therefore, we can have the same traits / naming but a crate's functionality will have a "prefix ->" :: 
+
+    println!("\n7.2.0 - Modules");
+    // use brings a path into scope
+    // pub makes items public
+    
+    // Modules organize code within a crate 
+    // Groups code in crates for readability and easy reuse
+    // Modules are responsible for code's privacy (public <-> private)
+    
+    // as example following library crate (restaurant functionatlity) is defined:
+    // first part: front of house (what the customers gets)
+    // second part: back of house (behind the shelf)
+    println!("In order to create a new library: cargo new --lib lib_name");
+    // however in our use case we simply use this package and put the lib functions in src/lib.rs
+
+    println!("main.rs and lib.rs are crate roots as they are a module always named crate");
+    // Underneath a crate module, there can be the module tree we see in ./lib.rs
+    
+    // if there is a module underneath another, this module is the child of another and vice versa
+    // modules can be siblings, because they have the same parent
+    
+    // However, all modules (i.e. the module tree is) are underneath the implicit module "crate" 
+    // in this case crate is main.rs and lib.rs
 }
