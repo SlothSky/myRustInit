@@ -7,6 +7,12 @@ Currently I'm using these resources:
 ___
 ## Versions ↔ Chapters
 
+### 0.7.0
++ [RustBook](https://doc.rust-lang.org/book/title-page.html) - Chapter 7
+  + Managing Growing Projects with Packages, Crates, and Modules
+    + packages_and_crates
+
+
 ### 0.6.0
 + [RustBook](https://doc.rust-lang.org/book/title-page.html) - Chapter 6
   + Enums and Pattern Matching

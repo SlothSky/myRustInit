@@ -87,4 +87,8 @@ fn main() {
     println!("In order to bring all public items into the current scope:  
        use std::collections::*;");
     
+    println!("\n7.5.0 - Separating modules into different files");
+    // glob operator's problems: hard to tell which elements / names are currently in scope
+    println!("File name must be equal to module name. 'mod some_mod' -> 'some_mod.rs'");
+    
 }

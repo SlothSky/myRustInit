@@ -1,47 +1,12 @@
 // Modules allow: programmers to navigate through code and add code to functionality
 
-// Modules can contain other modules
-mod front_of_house {
-    // Modules are defined via "mod"
-    // after mod, the modules name is defined. (i.e. hosting)
-    // hosting is a public module (their ancestors are allowed to use its items)
-    pub mod hosting {
-        // by making a module public, only the module can be referred to
-        // from the outside, i.e. we also need to set the privacy for a module's
-        // items, as this function:
-        pub fn _add_to_waitlist() {
-            println!("I'm sorry, you currently are one the waiting list");
-        }
-
-        // as opposed to _add_to_waitlist(), we cannot use _seat_at_table() from outside
-        fn _seat_at_table() {
-            println!("Please follow me to your table.");
-        }
-    }
-
-    // Modules can contain the defintion of other items, as
-    // structs, enums, constraints, traits, or: (functions)
-    // serving is a private module (private is default)
-    // items of ancestors cannot use serving's items, children of serving can
-    // use their ancestor's items
-    mod serving {
-        fn _take_order() {
-            println!("What can I get you?");
-        }
-
-        fn _serve_order() {
-            println!("Enjoy your meal");
-        }
-
-        fn _take_payment() {
-            println!("That would make 355.");
-        }
-    }
-}
+// front_of_house module was separated to its own file front_of_house.rs
+// the following line tells rust it needs to use the module from the file with this name
+mod front_of_house;
 
 // use brings a path into scope:
 // is the same as: use self::front_of_house::hosting;
-use crate::front_of_house::hosting;
+use self::front_of_house::hosting;
 // the use one line before is the idiomatic way to bring a function into scope
 // this is done, because this way, we know that this function was not defined
 // inside this scope
