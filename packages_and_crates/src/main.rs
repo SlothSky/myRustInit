@@ -31,7 +31,7 @@ fn main() {
     // therefore it only contains one crate named packages_and_crates
 
     // If we add a src/lib.rs, the packages would contain two crates:
-    // one binary and one library
+    // one binaryrustbook and one library
     // one package can have multiple binary crates (by placing multiple crates underneath src/bin)
     println!(
         "One package can have one library crate (src/lib.rs) and multiple binary crates (src/bin/)"
@@ -39,18 +39,18 @@ fn main() {
 
     // The semantic logic of a crate is to bundle related functionality
     // example: with the rand crate, functionality for generating random numbers can be imported
-    
+
     // Via namespacing we can control the scope of a crate
-    // therefore, we can have the same traits / naming but a crate's functionality will have a "prefix ->" :: 
+    // therefore, we can have the same traits / naming but a crate's functionality will have a "prefix ->" ::
 
     println!("\n7.2.0 - Modules");
     // use brings a path into scope
     // pub makes items public
-    
-    // Modules organize code within a crate 
+
+    // Modules organize code within a crate
     // Groups code in crates for readability and easy reuse
     // Modules are responsible for code's privacy (public <-> private)
-    
+
     // as example following library crate (restaurant functionatlity) is defined:
     // first part: front of house (what the customers gets)
     // second part: back of house (behind the shelf)
@@ -59,10 +59,32 @@ fn main() {
 
     println!("main.rs and lib.rs are crate roots as they are a module always named crate");
     // Underneath a crate module, there can be the module tree we see in ./lib.rs
-    
+
     // if there is a module underneath another, this module is the child of another and vice versa
     // modules can be siblings, because they have the same parent
-    
-    // However, all modules (i.e. the module tree is) are underneath the implicit module "crate" 
+
+    // However, all modules (i.e. the module tree is) are underneath the implicit module "crate"
     // in this case crate is main.rs and lib.rs
+
+    println!("\n7.3.0 - Paths");
+    println!("See lib.rs for path details");
+
+    println!("\n7.3.1 - public and private");
+    println!("pub structs: still private values \npub enums: options are also public");
+
+    println!("\n7.4.0 - use");
+    println!("Functions are 'use'd via their parent module's path, other items as enums, ... are 'use'd via their full path");
+
+    println!("\n7.4.1 - use nested paths");
+    // nested paths are also possible when using subpaths:
+    // use std::io::{self, Write}; // -> always check for the common part of the path and
+    // use this common part before the curly brackets
+    println!("In order to clean up code, nested paths can be used: 
+       use std::{{cmp::Ordering, io}};");
+
+    println!("\n7.4.2 - use glob operator");
+    // glob operator's problems: hard to tell which elements / names are currently in scope
+    println!("In order to bring all public items into the current scope:  
+       use std::collections::*;");
+    
 }
