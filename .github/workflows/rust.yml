@@ -17,6 +17,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: Set coorect permissions
+      run: chmod +x ./latest_dir.sh 
     - name: Go to newest folder
       run: ./latest_dir.sh 
     - name: Build
