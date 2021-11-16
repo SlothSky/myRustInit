@@ -17,11 +17,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set coorect permissions
       run: chmod +x ./latest_dir.sh 
-    - name: Go to newest folder
-      run: ./latest_dir.sh 
-    - name: Build
-      run: cargo build --verbose
-    - name: Run program
-      run: cargo run
-    - name: Run tests
-      run: cargo test --verbose
+    - name: Go to newest folder and build
+      run: | 
+        ./latest_dir.sh 
