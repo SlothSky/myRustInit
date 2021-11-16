@@ -209,4 +209,115 @@ fn main() {
     }
 
     println!("iterating over grapheme clusters of a String is more complex (crates with that functionality are available)");
+
+    println!("\n8.3.0 - Hash Maps");
+    // bring HashMap into scope
+    use std::collections::HashMap;
+
+    // a HashMap<K, V> stores a mapping of keys of type K to value of type V
+    // for HashMaps, there is no constructor macro
+    let mut hm = HashMap::new();
+
+    // adding key-value pairs to a HashMap via insert
+    // all values must be of the same type & all keys must be of the same type
+    hm.insert(String::from("team_blue"), 10);
+    hm.insert(String::from("team_yellow"), 30);
+
+    println!("This HashMap was initialized and then values got inserted: 
+        {:?}", 
+        hm
+    );
+
+    // another way of creating a HashMap is via iterator & collect:
+    // this is useful for combining two vectors to a HashMap
+    let teams = vec![String::from("team_red"), String::from("team_green")];
+    let init_scores = vec![100, 5];
+
+    // The HashMap<_, _> is required, because collect can iterator data for 
+    // multiple types of collection. 
+    // The HashMap's types however can be infered by Rust
+    let mut _scores: HashMap<_, _> = 
+        teams.into_iter().zip(init_scores.into_iter()).collect();
+
+    println!("This HashMap was created via iterators & collect:
+        {:?}",
+        _scores
+    );
+
+    println!("\n8.3.1 - Hash Maps Ownership");
+    // Types that implement the 'Copy' Trait, are copied into the HashMap
+    // Owned values, like String, will be moved and the HashMap will be the new owner
+    let field_name = String::from("Favorite color");
+    let field_value = String::from("red");
+
+    let mut map = HashMap::new();
+    map.insert(field_name, &field_value); 
+    // at this point field_name is invalid and field_value must be valid
+    // as long as the HashMap is valid
+    println!("Values w/o the 'Copy' Trait are moved into the HashMap");
+
+    println!("\n8.3.2 - Accessing Hash Map Values");
+    // values can be retrieved from a HashMap via 'get' 
+    let mut scores = HashMap::new();
+
+    scores.insert(String::from("team_red"), 100);
+    scores.insert(String::from("team_green"), 3);
+
+    let desired_team = String::from("team_red");
+    // the result is wrapped in Some() becuase there might be no value for this key
+    let desired_score= scores.get(&desired_team);
+    
+    match desired_score {
+        Some(score) => {
+            println!(
+                "The score of the {} is {}.", 
+                desired_team, 
+                score
+            );
+        },
+        None => println!("This team does not exist"),
+    }
+    
+    // over HashMaps, also for loop iteration is possible:
+    for (key, value) in &scores {
+        println!(
+            "{} currently has {} points.",
+            key,
+            value
+        );
+    }
+
+    println!("\n8.3.3 - Updating a HashMap");
+    // for updating it is important to know, how Rust shall behave if a value
+    // for a specific key already exists
+
+    // Overwriting a Value via insert:
+    let mut scores = HashMap::new();
+
+    scores.insert(String::from("team_red"), 100);
+    scores.insert(String::from("team_red"), 150);
+
+    println!("The value for team_red was overwritten by insert: {:?}", scores);
+
+    // Only inserting, if key has no value via entry:
+    scores.entry(String::from("team_green")).or_insert(5);
+    scores.entry(String::from("team_red")).or_insert(200);
+
+    println!("The value for team_red was not overwritten by entry / or_insert: {:?}", scores);
+
+    // Updating a value base on the old value:
+    let text = "hello world , wonderful world - world.";
+    let mut map = HashMap::new();
+
+    for word in text.split_whitespace() {
+        // the mutable reference count goes out of scope after each iteration
+        let count = map.entry(word).or_insert(0);
+        // dereferencing reqiored in order to assign a value to the mut reference
+        *count += 1;
+    }
+
+    println!("This HashMap's values got updated, based on the old values: {:?}", map);
+
+    println!("\n8.3.4 - Hashing Functions");
+    println!("Info: HashMaps use SipHash");
 }
