@@ -1,8 +1,11 @@
+![main](https://github.com/SlothSky/myRustInit/actions/workflows/rust.yml/badge.svg)
+
 # my_rust_init
 I'm using this repository for getting into Rust.
 Currently I'm using these resources:
 + [RustBook](https://doc.rust-lang.org/book/title-page.html)
 + [Rustlings Exercises](https://github.com/rust-lang/rustlings)
+
 
 ___
 ## Versions ↔ Chapters
@@ -11,6 +14,7 @@ ___
 + [RustBook](https://doc.rust-lang.org/book/title-page.html) - Chapter 8
   + Common Collections
     + collections
+
 ### 0.7.0
 + [RustBook](https://doc.rust-lang.org/book/title-page.html) - Chapter 7
   + Managing Growing Projects with Packages, Crates, and Modules
