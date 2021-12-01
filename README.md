@@ -10,6 +10,11 @@ Currently I'm using these resources:
 ___
 ## Versions ↔ Chapters
 
+### 0.9.0
++ [RustBook](https://doc.rust-lang.org/book/title-page.html) - Chapter 9
+  + Error Handling
+    + error_handling
+
 ### 0.8.0
 + [RustBook](https://doc.rust-lang.org/book/title-page.html) - Chapter 8
   + Common Collections

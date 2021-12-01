@@ -85,7 +85,15 @@ fn main() {
     println!(
         "Following username was retrieved from the file system with the ? shortcut: {}",
         read_username_from_file_with_shortcut("hello.txt").unwrap_or(String::from("default_due_error"))
-    )
+    );
+
+    println!("\n9.3.0 - panic! or not to panic!");
+    println!("panic! can help to increase the readability of code (examples, prototyping, ...)");
+    println!("Using unwrap with code logic, which provides the Result to contain an Err(), e.g.:\n
+        let home: IpAddr = \"127.0.0.1\".parse().unwrap()");
+    println!("using panic for: \n• bad state is unexpected\n• code after this point needs must not be in this bad state\n• this information cannot be encoded in the used types");
+    println!("panic! → unexpected errors | Result → expected errors");
+
 
 }  
 
