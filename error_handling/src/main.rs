@@ -43,7 +43,7 @@ fn main() {
     let _f = File::open("hello.txt");
 
     // This code can be writter cleaner w/ closures
-    let _f = match _f {
+    let mut _f = match _f {
         Ok(file) => file,
         Err(error) => match error.kind() {
             ErrorKind::NotFound => match File::create("hello.txt") {
@@ -55,6 +55,17 @@ fn main() {
             }
         }
     };
+
+    let mut _s = String::new();
+
+    let _f = match _f.read_to_string(&mut _s) {
+        Ok(_) => Ok(_s),
+        Err(error) => Err(error),
+    };
+
+    println!("Following string was read from file {:?}", 
+        _f.unwrap_or(String::from("ERROR - NOTHING COULD BE READ FROM FILE"))
+    );
 
     println!("\n9.2.2. - Shortcuts for Panic on Error: unwrap & expect");
     // unwrap will return Ok value or panic automatically:
