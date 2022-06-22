@@ -67,22 +67,22 @@ impl Summary for UnitFillUpStation {
 // in this case the Summary implementation for CharingStation would still be valid
 
 // conditionally implementing methods on types depending on trait bounds of the generic types:
-struct Pair<T> {
+struct _Pair<T> {
     x: T,
     y: T,
 }
 
 // the new method is implemented for all specific types
-impl<T> Pair<T> {
-    fn new(x: T, y: T) -> Self {
+impl<T> _Pair<T> {
+    fn _new(x: T, y: T) -> Self {
         Self { x, y }
     }
 }
 
 // this method is only implemented for the specific types that implement the traits Display
 // and PartialOrd
-impl<T: Display + PartialOrd> Pair<T> {
-    fn cmp_display(&self) {
+impl<T: Display + PartialOrd> _Pair<T> {
+    fn _cmp_display(&self) {
         if self.x >= self.y {
             println!("X is bigger than Y");
         } else {

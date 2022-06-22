@@ -39,6 +39,23 @@ impl<T, U> _SecondPoint<T, U> {
     }
 }
 
+// structs can also have references as their properties
+// in this case each reference requires a lifetime parameter
+// the Bill struct can't outlive the reference to the property _price holds
+struct Bill<'a> {
+    _price: &'a f32,
+}
+
+// struct fields' lifetimes names need to be declared after the impl
+// in this case the third elision rule applies (lifetime of &self is applied to the return)
+// all lifetimes of the method are infered automatically by the compiler
+impl<'a> Bill<'a> {
+    fn _announce_and_return_price(&self, _announcement: &str) -> &f32 {
+        println!("Attention please: {}", &self._price);
+        &self._price
+    }
+}
+
 fn main() {
     println!("10.0.0 generics");
     // generics are stand ins for actual (multiple) specific data types
@@ -78,6 +95,7 @@ fn main() {
     // RUNNING THE CODE W/ GENERICS DOES NOT MAKE IT SLOWER THAN USING CONCRETE DATA TYPES
     // BUZZ WORD: monomorphization
 
+    /*####################################################################################*/
     println!("\n\n10.2.0 Traits: Defining Shared Behaviour");
     // traits are defines functionalities of a specific type, which it 
     // can share with other types
@@ -131,6 +149,95 @@ fn main() {
 
     println!("\n10.2.7 Conditionally implementing methods based on trait bounds");
     // See lib.rs for examples
+
+    /*####################################################################################*/
+    println!("\n\n10.3.0 Validating references w/ lifetimes");
+    // lifetimes ensure that references are as long valid as they need to be
+    // every reference in Rust has a lifetime (a valid scope)
+    // lifetimes need only to be annotated when the lifetimes of references can be related
+
+    println!("\n10.3.1 Borrow checker");
+    // compiler uses the borrow checker in order to determine if all borrows are valid
+    // compilation gets aborted when the checker detects that code uses other code from an 
+    // inactive lifetime
+
+    println!("\n10.3.2 Generic lifetimes in functions & lifetime annotation syntax");
+    let str1 = String::from("Longer String");
+    let str2 = "short str";
+
+    let result = longest(str1.as_str(), str2);
+    println!("The longest string was {}", result);
+
+    // check reaction of longest function when providing references w/ non compatible lifetimes
+    // in this case, everything is fine → result lifetime is <= both parameter lifetimes
+    let string1 = String::from("First string - outer scope");
+    {
+        let string2 = String::from("Second string - inner scope");
+        let result = longest(string1.as_str(), string2.as_str());
+        println!("Everything fine for this short lifetime | {}", result);
+    }
+
+    // this case does not work, as the result lifetime is > string2 lifetime
+    /* 
+        let string1 = String::from("First string - outer scope");
+        let result;
+        {
+            let string2 = String::from("Second string - inner scope");
+            result = longest(string1.as_str(), string2.as_str());
+        }
+        println!("This can't work | {}", result);
+    */
+
+    println!("\n10.3.3 Thinking in terms of lifetimes");
+    // defining the lifetimes of a function is dependant on the desired behaviour of the function
+
+    // not all parameters of function require a lifetime description
+    // if the parameter is not related to the other parameters or return value → no lifetime required
+
+    // the lifetime parameter of the return value must be the lifetime parameter of one of the 
+    // input references
+    
+    println!("\n10.3.4 Lifetime annotations in struct definitions");
+    // see top of the file for a struct definition with lifetimes
+    let fuel_pump_status = 58.34;
+    let _bill = Bill {
+        _price: &fuel_pump_status,
+    };
+
+    println!("\n10.3.5 Lifetime elision");
+    // for some common patterns, the lifetimes don't need to be described explicitely in 
+    // the function or struct definition
+    // these elision rules (rules for compiler) are not very strict, i.e. if the compiler
+    // is in doubt, it might ask for explicit lifetime parameters
+
+    /*
+        Three rules the compiler uses for lifetime inference
+            Rule 1 is on input lifetimes (fn / method parameter lifetimes)
+                Each parameter gets its own lifetime assigned
+            Rule 2 is on output lifetimes (return lifetimes)
+                If there is one input parameter, the return value has the same lifetime
+            Rule 3 is on output lifetimes
+                If there is a &self or &mut self the return value has the &self lifetime
+
+        If there is now still an open reference w/o lifetime, the compiler asks for 
+        explicit definition of all lifetime parameters
+    */
+
+    println!("\n10.3.6 Lifetime annotations in method definitions");
+    // check the method implementation for the Bill above for an example
+
+    println!("\n10.3.7 The static lifetime");
+    // the 'static lifetime defines that the affected reference can live for the entire program
+    // all string literals have the 'static lifetime:
+    // this is the case, because the text is stored in the program's binary
+    let _s: &'static str = "This sentence has a static lifetime";
+    println!(
+        "Before blindly applying a static lifetime, check first all other options. There 
+        might be an error (e.g. a dangling reference)"
+    );
+
+    println!("\n10.3.8 Generic type parameters, trait bounds and lifetimes together");
+    println!("check last function in this file");
 }
 
 // function for 10.1.0 
@@ -249,6 +356,53 @@ fn returns_fillup_station(car_model: String) -> impl Summary {
     }
     }
 */
+
+// function required for 10.3.1
+// in order to give the borrow checker the required information, the relationship
+// between the references must be described
+// names of lifetimes must start with an ' and usually are very short
+// default lifetime name: 'a
+// lifetime parameters are placed after the & of a reference:
+/*
+    &i32          → reference
+    &'a i32       → a reference w/ an explicit lifetime
+    &'a mut i32   → a mutable reference w/ an explicit lifetime
+*/
+// one reference with one lifetime is useless (relationship between references are required)
+// e.g. two references: one & two, both w/ the lifetime 'a → bothe references have the same lifetime 
+
+// following function signature describes that the return value will be valid as long
+// as the two parameters are valid
+fn longest<'a>(x: &'a str, y: &'a str) -> &'a str { // 'a will be <= lifetimes of x & y
+    if x.len() > y.len() {                          // therefore 'a will always be valid        
+        x
+    } else {
+        y
+    }
+}
+
+// function required for 10.3.8
+// lifetimes and generic type parameter are defined in the same angle brackets
+fn _longest_with_announcement<'a, T>(
+    x: &'a str,
+    y: &'a str,
+    ann: T,
+) -> &'a str
+where 
+    T: Display,
+{
+    println!("ANNOUNCEMENT! {}", ann);
+    if x.len() > y.len() {
+        x
+    } else {
+        y
+    }
+}
+
+
+
+
+
 
 
 
