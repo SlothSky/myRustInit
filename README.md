@@ -9,6 +9,11 @@ Currently I'm using these resources:
 
 ___
 ## Versions ↔ Chapters
+### 0.11.0
++ [RustBook](https://doc.rust-lang.org/book/title-page.html) - Chapter 11
+  + Writing Automated Tests
+    + tests
+
 
 ### 0.10.0
 + [RustBook](https://doc.rust-lang.org/book/title-page.html) - Chapter 10
