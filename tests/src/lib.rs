@@ -26,6 +26,11 @@ impl Guess {
 
         Guess { _value: value }
     }
+} 
+
+fn _print_and_return_10(a: i32) -> i32 {
+    println!("THIS LINE IS ONLY PRINTED IF THE ACCORDING TEST CASE FAILS {}", a);
+    10
 }
 
 #[cfg(test)]
@@ -128,6 +133,21 @@ mod tests {
         }
     }
     // if assertion for an Err is required → use assert!(value.is_err())
+
+    // first test will pass → thus no output of the functions println! macro
+    #[test]
+    #[ignore]
+    fn passing_test_has_no_stdout_output() {
+        let result = _print_and_return_10(10);
+        assert_eq!(result, 10);
+    }
+
+    // second test will fail → thus println! macro will have output to stdout
+    #[test]
+    fn failing_test_has_stdout_output() {
+        let result = _print_and_return_10(10);
+        assert_eq!(result, 8);
+    }
 }
 
 

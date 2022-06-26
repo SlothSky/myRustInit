@@ -43,6 +43,56 @@ fn main() {
     // instead of panicing, the Result<T, E> with an Error returned can be a test input
     // see adder/src/lib.rs for example
     println!("should_panic annotation is not compatible with the Result<T, E> tests");
+
+    println!("\n\n11.2.0 Controlling how tests are run");
+    // cargo run → compiling code and running output binary
+    // cargo test → compiling code in test mode and running output binary
+    /*
+        some command line options are for the 'cargo test' tool 
+        other command line options are for the resulting (built) and executed test binary
+            - different options are separated:
+                - cargo test --help (for tool options)
+                - cargo test -- --help (for binary options)
+    */
+
+    
+    println!("\n11.2.1 Running tests in parallel or consecutively");
+    /*  
+        default → multiple tests are run in parallel, using threads
+            • faster execution speed → quicker feedback
+            • tests must not depend on each other or on a shared state / environmentojk 
+        running tests consecutively
+            • limit threads via --test-threads option
+            • 'cargo test -- --test-threads=1
+    */ 
+
+    println!("\n11.2.2 Showing function output");
+    // If a test passes, the test library will not show anything printed to stdout
+    // i.e. every println! used in the tested element will be 'suppressed'
+    // check the lib.rs for an example
+    // IN ORDER TO FORCE THE OUTPUT, ALSO FOR PASSING TEST CASES, RUN:
+    // cargo test -- --show-output
+
+    println!("\n11.2.3 Running a subset of tests by name");
+    // by default, all the tests are executed
+    // running a subset of tests (filtered by name) is possible as well
+    /*
+        • RUNNING SINGLE TESTS
+            - defined by the test function name, e,g,:
+            - cargo test greater_than_100_guess_with_expected
+        • RUNNING MULTIPLE TESTS
+            - all tests functions containing the option in their name will be executed, e.g.:
+            - cargo test greater_than_100_gues
+            - the containing module's name is also part of the test function's name
+        • IGNORING SOME TESTS UNLESS SPECIFICALLY REQUESTED
+            - time consuming tests might want to be ignored for most of the time 
+            - ignored tests will only be executed via the ignored option:
+                - cargo test -- --ignored
+                - cargo test -- --include-ignored
+
+            - to the [test] annotation, an additional [ignore] annotation needs to be added 
+            - see lib.rs for an example
+    */
 }
 
 
